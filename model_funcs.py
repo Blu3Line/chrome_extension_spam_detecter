@@ -1,5 +1,7 @@
 import pickle
-TfidfVectorizer = pickle.load(open('tfidfVectorizer.pkl', 'rb'))  
+import re
+import string
+TfidfVectorCelo = pickle.load(open('tfidfVectorCelo.pkl', 'rb'))  
 model = pickle.load(open('mnbModelim.pkl', 'rb'))  
 '''
 Modelin yapması gerekenler sırayla:
@@ -49,9 +51,26 @@ def transform_text(text):
     # Join the processed tokens back into a single string
     return " ".join(y)    
 
+def clean_data(text):
+    '''Make text lowercase, remove text in square brackets, remove punctuation and remove words containing numbers.'''
+    '''remove links and put URL keyword instead of it'''
+    '''remove html tags'''
+    "sıraları önemli bu arada"
+    text = re.sub('<.*?>', '', text)
+    text = re.sub(r'https?://\S+|www\.\S+', 'URL', text)
+    text = re.sub('\n | \r', '', text)
+    text = re.sub('\[.*?\]', '', text)
+    text = text.lower()
+    text = re.sub('\w*\d\w*', '', text)
+    text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
+    
+    #aralarda boşluklar vs. oluyor benim spacy haklarından gelir  bunların merak etme sonra düzeltiriz onları
+    return text
+
+
 def check_spam_func(text):
     text = transform_text(text)
-    text = TfidfVectorizer.transform([text])
+    text = TfidfVectorCelo.transform([text])
     pred = model.predict(text)[0]
     print(pred)
     if pred == 1:
