@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Spam Tespit Eklentisi",
+  "version": "1.0",
+  "description": "E-postalarınızın spam olup olmadığını kontrol edin.",
+  "icons": {
+    "48": "icons/icon48.png"
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/icon48.png"
+  },
+  "permissions": ["activeTab"]
+}

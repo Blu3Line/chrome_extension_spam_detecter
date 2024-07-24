@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Spam Tespit Eklentisi</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 300px;
+      padding: 20px;
+    }
+
+    .result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .loader {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 60px;
+      height: 60px;
+      animation: spin 2s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="text-center">Spam Tespit</h1>
+    <div class="form-group">
+      <textarea class="form-control" id="emailContent" placeholder="E-posta metnini buraya yapıştırın..."
+        rows="5"></textarea>
+    </div>
+    <button class="btn btn-primary btn-block" id="checkSpam">Spam Kontrolü Yap</button>
+    <div id="loader" class="loader" style="display: none;"></div>
+    <div id="result" class="result text-center"></div>
+    <hr>
+    <div class="about text-center">
+      <p>Bu eklenti, e-posta metinlerinizin spam olup olmadığını kontrol eder.</p>
+      <p><strong>Geliştirici:</strong> Celal ERKUŞ</p>
+      <p><a href="celal.erkuss@gmail.com">Geri Bildirim Gönder</a></p>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
