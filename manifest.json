@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Spam Tespit Eklentisi",
   "version": "1.0",
-  "description": "E-postalarınızın spam olup olmadığını kontrol edin.",
+  "description": "E-postalarınızın spam olup olmadığını kontrol edin. Şimdilik Sadece İngilizce mailler için düzgün sonuçlar vermektedir.",
   "icons": {
     "48": "icons/icon48.png"
   },

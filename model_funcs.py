@@ -72,7 +72,7 @@ def check_spam_func(text):
     text = transform_text(text)
     text = TfidfVectorCelo.transform([text])
     pred = model.predict(text)[0]
-    print(pred)
+    print(pred, ": pythondaki prediction değeri")
     if pred == 1:
         return True
     else:

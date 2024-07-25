@@ -29,5 +29,30 @@ document.getElementById('checkSpam').addEventListener('click', function() {
       result.innerHTML = '<span class="badge badge-warning">Bir hata oluştu.</span>';
     });
   });
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const switchElement = document.getElementById('switch');
+
+    // Başlangıç durumu yükleme
+    fetch('http://localhost:5000/switch')
+        .then(response => response.json())
+        .then(data => {
+            switchElement.checked = data.state;
+        });
+
+    // Switch değiştiğinde durumunu güncelle
+    switchElement.addEventListener('change', () => {
+        fetch('http://localhost:5000/switch', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ state: switchElement.checked })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Switch durumu güncellendi:', data);
+        });
+    });
+});
   
   

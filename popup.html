@@ -6,9 +6,7 @@
   <title>Spam Tespit Eklentisi</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
+
 
     .container {
       width: 300px;
@@ -40,6 +38,70 @@
       }
     }
   </style>
+  <style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    .switchClass {
+        display: flex;
+        align-items: center;
+    }
+
+    .switchClass label {
+        margin-left: 10px;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+    } 
+</style>
 </head>
 
 <body>
@@ -58,6 +120,13 @@
       <p><strong>Geliştirici:</strong> Celal ERKUŞ</p>
       <p><a href="celal.erkuss@gmail.com">Geri Bildirim Gönder</a></p>
     </div>
+    <div class="switchClass">
+      <span>Realtime Spam Detection</span>
+      <label class="switch">
+          <input type="checkbox" id="switch">
+          <span class="slider round"></span>
+      </label>
+    </div> 
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
