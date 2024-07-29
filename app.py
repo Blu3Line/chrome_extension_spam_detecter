@@ -1,6 +1,7 @@
 #backend yapısı
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from dbComm import insert_feedback
 from model_funcs import check_spam_func, clean_data, transform_text
 #yukarda transform texti kaldır debug için yaptım sonra kaldırılacak
 
@@ -30,6 +31,15 @@ def check_spam2():
     print("PY DEBUG: prediction=>", prediction)
     #content = data['content']
     return jsonify({'is_spam': prediction})
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    print("PY DEBUG: feedback fonksiyonu çalıştı")
+    data = request.json
+    
+    result = insert_feedback(data['mail_id'], data['content'], data['label'], data['lang'])
+    return jsonify({'is_success': result})
+
 
 #realtime detection ile ilgili backend tarafı
 import json

@@ -13,7 +13,8 @@
   "author": "",
   "dependencies": {
     "gmail-js": "^1.1.14",
-    "jquery": "^4.0.0-beta"
+    "jquery": "^4.0.0-beta",
+    "sweetalert2": "11.12.3"
   },
   "license": "ISC",
   "devDependencies": {
