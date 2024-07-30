@@ -19,7 +19,7 @@ webapp.egg-info/
 # Virtual environment
 venv/
 
-
+glove.6B.300d.txt.word2vec
 
 # Created by https://www.gitignore.io/api/emacs,vim,visualstudiocode,node
 

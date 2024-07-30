@@ -5,7 +5,7 @@ db = client['email_spam_detecter']
 collection = db['feedbacks']
 collection.create_index([('mail_id', 1)], unique=True)
 
-# Inserting a document (a record) into the collection
+# Yeni veri girişini veritabanına ekler
 def insert_feedback(mail_id, email, label, lang):
     try:
         collection.insert_one({'mail_id': mail_id, 'email': email, 'label': label, 'lang': lang, 'insert_date': datetime.now()})

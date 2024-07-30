@@ -101,7 +101,7 @@ function dataSent(emailid, subject, content, from, to){
 
 function feedbackSent(mail_id, content, label, lang){
     //API'ye gönderilecek veriler
-    label = !label; //!label olmasının sebebi bildirim yapıyor herifler yanlış olduğunu idda ettikleri için
+    label = !label; //!label olmasının sebebi bildirim yapıyor yanlış olduğunu idda ettikleri için
     const data = {
         mail_id: mail_id,
         content: content,
@@ -255,7 +255,7 @@ function rightOuterİciDoldurma(email_id, email_content, label){
     // Buton stilini doğrudan elementlere ekleme
     var bildirBtn = btnOlusturucu("Sonucu Bildir", "bildir-btn");
 
-    // Butona tıklama
+    // Geri bildirim butonuna basınca çalışacak fonksiyon
     bildirBtn.addEventListener("click", () => {
         Swal.fire({
             icon: "info",
@@ -267,10 +267,9 @@ function rightOuterİciDoldurma(email_id, email_content, label){
             denyButtonText: `Türkçe`,
             cancelButtonText: "İptal",
           }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
+            //API gönderilecek veriler
             if (result.isConfirmed) {
                 feedbackSent(email_id, email_content, label, "en"); 
-                
             } else if (result.isDenied) {
                 feedbackSent(email_id, email_content, label, "tr");
             }

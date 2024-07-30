@@ -1,8 +1,8 @@
-import pickle
+import joblib
 import re
-import string
-TfidfVectorCelo = pickle.load(open('tfidfVectorCelo.pkl', 'rb'))  
-model = pickle.load(open('mnbModelim.pkl', 'rb'))  
+import numpy as np
+
+model = joblib.load(open('LR_ML_modelim.pkl', 'rb'))  
 '''
 Modelin yapması gerekenler sırayla:
 1) preprocess işlemini yap (alınan text verisini)
@@ -11,67 +11,51 @@ Modelin yapması gerekenler sırayla:
 4) predicti artık nasıl kullanmak istiyorsan ona göre kullanabilirsin
 '''
 
-from nltk.corpus import stopwords
-import nltk
-from nltk.stem import PorterStemmer
-nltk.download('stopwords')
-nltk.download('punkt')
-ps = PorterStemmer()
+import spacy
+nlp = spacy.load('en_core_web_sm')
 
-import string
-# Lowercase transformation and text preprocessing function
-def transform_text(text):
-    # Transform the text to lowercase
-    text = text.lower()
-    
-    # Tokenization using NLTK
-    text = nltk.word_tokenize(text)
-    
-    # Removing special characters
-    y = []
-    for i in text:
-        if i.isalnum():
-            y.append(i)
-            
-    # Removing stop words and punctuation
-    text = y[:]
-    y.clear()
-    
-    # Loop through the tokens and remove stopwords and punctuation
-    for i in text:
-        if i not in stopwords.words('english') and i not in string.punctuation:
-            y.append(i)
+from nltk.corpus import stopwords
+stop_words = stopwords.words('english')
+stop_words.extend(['fw', 'mw', 'enron', 'ect', 'hou', 'e', 'cc', 'de', 'j', 'l','b', 'c', '>', '|'])
+
+
+def text_preprocess_vectorize(text, prmt_glove):
+
+    tokens = []
+    text = nlp(text)
+    for token in text:
+        if token.text.lower() in stop_words:
+            continue
+        if token.is_punct : 
+            continue
+        if token.is_space: #yeni eklendi lets go 
+            continue
+        if token.is_digit: 
+            continue
         
-    # Stemming using Porter Stemmer
-    text = y[:]
-    y.clear()
-    for i in text:
-        y.append(ps.stem(i))
-    
-    # Join the processed tokens back into a single string
-    return " ".join(y)    
+        tokens.append(token.lemma_.lower())
+    print("debug tokenları görek:", tokens)
+    return prmt_glove.get_mean_vector(tokens)
 
 def clean_data(text):
     '''Make text lowercase, remove text in square brackets, remove punctuation and remove words containing numbers.'''
     '''remove links and put URL keyword instead of it'''
     '''remove html tags'''
     "sıraları önemli bu arada"
-    text = re.sub('<.*?>', '', text)
+    text = re.sub('<.*?>', ' ', text)
     text = re.sub(r'https?://\S+|www\.\S+', 'URL', text)
-    text = re.sub('\n | \r', '', text)
-    text = re.sub('\[.*?\]', '', text)
-    text = text.lower()
-    text = re.sub('\w*\d\w*', '', text)
-    text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
+    text = re.sub(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', 'email', text)
+    text = re.sub('[\r\n\xa0]', ' ', text)
+    text = re.sub('\w*\d\w*', ' ', text)
     
     #aralarda boşluklar vs. oluyor benim spacy haklarından gelir  bunların merak etme sonra düzeltiriz onları
     return text
 
 
-def check_spam_func(text):
-    text = transform_text(text)
-    text = TfidfVectorCelo.transform([text])
-    pred = model.predict(text)[0]
+def check_spam_func(text, prmt_glove):
+    text = text_preprocess_vectorize(text, prmt_glove)
+    text_2d = np.stack([text])
+    pred = model.predict(text_2d)[0]
     print(pred, ": pythondaki prediction değeri")
     if pred == 1:
         return True

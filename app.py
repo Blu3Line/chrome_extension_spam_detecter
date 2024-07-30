@@ -2,18 +2,23 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dbComm import insert_feedback
-from model_funcs import check_spam_func, clean_data, transform_text
-#yukarda transform texti kaldır debug için yaptım sonra kaldırılacak
+from model_funcs import check_spam_func, clean_data
 
 app = Flask(__name__)
 CORS(app)
+
+#glove modelimizi yükleyelim
+from gensim.models import KeyedVectors
+print("glove modeli yükleniyor...")
+glove_model = KeyedVectors.load_word2vec_format("glove.6B.300d.txt.word2vec", binary=False)
+print("glove modeli yüklendi.")
 
 @app.route('/check_spam', methods=['POST'])
 def check_spam():
     print("PY DEBUG: popup için python fonksiyonu çalıştı (check_spam func)")
     data = request.json
-    content = data['content']
-    prediction = check_spam_func(content)
+    cleaned_data = clean_data(data['content'])
+    prediction = check_spam_func(cleaned_data, glove_model)
     return jsonify({'is_spam': prediction})
 
 @app.route('/check_spam2', methods=['POST'])
@@ -27,7 +32,7 @@ def check_spam2():
     cleaned_data = clean_data(data['content'])
     #print(transform_text(cleaned_data))
     
-    prediction = check_spam_func(cleaned_data)
+    prediction = check_spam_func(cleaned_data, glove_model)
     print("PY DEBUG: prediction=>", prediction)
     #content = data['content']
     return jsonify({'is_spam': prediction})
@@ -82,4 +87,4 @@ def set_switch_state():
 """
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=False) #debug kaldırdım çünkü iki defa execute yapıyor app.py dosyasını
